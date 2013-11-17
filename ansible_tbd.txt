@@ -1,0 +1,7 @@
+TBD
+===
+
+add the git conifguration stuff - I hate doing this by hand:
+	git config --global user.name "Farley Balasuriya"
+	git config --global user.email "developer@QuestorSystems.com"
+

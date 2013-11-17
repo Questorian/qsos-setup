@@ -1,0 +1,73 @@
+
+---
+- hosts: all
+  vars:
+    ntpserver: ntp.metas.ch
+  tasks:
+  - name: ntpdate install
+    apt: pkg=ntpdate state=present
+
+  - name: configure NTP server to ntp.metas.ch
+    copy: src=src/synctime.sh dest=/etc/cron.hourly mode=0744
+
+  - name: synchronise time with NTP Server
+    command: ntpdate {{ ntpserver }}
+
+  - name: htop install
+    apt: pkg=htop state=present
+
+  - name: vim install
+    apt: pkg=vim state=present
+
+  - name: sudo install
+    apt: pkg=sudo state=present
+
+  - name: openssh-server install
+    apt: pkg=openssh-server state=present
+
+  - name: NFS installation
+    apt: pkg=nfs-common state=present
+
+  - name: Install perldoc
+    apt: pkg=perl-doc state=present
+
+  - name: git install
+    apt: pkg=git state=present
+
+
+- hosts: app
+  tasks:
+  - name: nginx install
+    apt: pkg=nginx state=present
+
+  - name: nginx restart
+    action: service name=nginx state=started
+
+- hosts: broken
+  tasks:
+  - name: Install perltidy (for default system perl - sysperl)
+    apt: pkg=perltidy state=present
+
+- hosts: hidden
+  tasks:
+  - name: apache2 install
+    apt: pkg=apache2 state=present
+
+  - name: mysql-server install
+    apt: pkg=mysql-server state=present
+
+  - name: libmysqlclient-dev (mysql_config for DBD:Mysql)
+    apt: pkg:libmysqlclient-dev state=present
+
+  - name: php5 install
+    apt: pkg=php5 state=present
+
+  - name: php-pear install
+    apt: pkg=php-pear state=present
+
+  - name: php5-mysql install
+    apt: pkg=php5-mysql state=present
+
+  - name: nginx install
+    apt: pkg=nginx state=present
+
