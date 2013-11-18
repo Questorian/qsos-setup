@@ -2,19 +2,13 @@
 ---
 - hosts: all
   vars:
-    buildid: 13.10.0
     ntpserver: ntp.metas.ch
     # create password with:
     # python -c 'import crypt; print crypt.crypt("Questor123", "$1$SomeSalt$")'
     password: $1$SomeSalt$gYe2UKCdKRZzMsGT3AEaE/
 
-
   tasks:
-    #
-    # time - first get the system time right and in cron every hour
-    #   we want accurate time for our logging processes
-    #
-  - name: install NTP and synchronise time
+  - name: ntpdate install
     apt: pkg=ntpdate state=present
 
   - name: configure NTP server to ntp.metas.ch
@@ -23,36 +17,26 @@
   - name: synchronise time with NTP Server
     command: ntpdate {{ ntpserver }}
 
-  - name: add users
-    user: name={{ item }} state=present password=$password
-    with_items:
-        - qsapp
-        - qsdevop
-          # remote access user
-        - 0mNaAeR@5Zzp83ZbNMJn
+  - name: htop install
+    apt: pkg=htop state=present
 
-  - name: Create QSOS directories - /mnt directories
-    action: file path=/mnt/{{ item }} state=directory
-    with_items:
-        - debian1
-        - debian2
-        - debian3
-        - debian4
-        - cpan
-        - cpan-$buildid
+  - name: vim install
+    apt: pkg=vim state=present
 
-  - name: Install base server packages
-    apt: pkg={{ item }} state=present
-    with_items:
-        - ntpdate
-        - htop
-        - vim
-        - sudo
-        - openssh-client
-        - openssh-server
-        - nfs-common
-        - perl-doc
-        - git
+  - name: sudo install
+    apt: pkg=sudo state=present
+
+  - name: openssh-server install
+    apt: pkg=openssh-server state=present
+
+  - name: NFS installation
+    apt: pkg=nfs-common state=present
+
+  - name: Install perldoc
+    apt: pkg=perl-doc state=present
+
+  - name: git install
+    apt: pkg=git state=present
 
 
 - hosts: app
