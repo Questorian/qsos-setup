@@ -1,11 +1,10 @@
+
 [infra]
 
 [db]
 
 [app]
-srv301
-srv802
+srv499
 
 [miner]
-srv499
 

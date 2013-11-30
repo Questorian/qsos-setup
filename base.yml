@@ -1,8 +1,13 @@
 
 ---
 - hosts: all
-
-  - include: buildvars.yml
+  vars:
+    build_id: 13.10.0
+    build_server: srv003
+    ntpserver: ntp.metas.ch
+    # create password with:
+    # python -c 'import crypt; print crypt.crypt("password", "$1$SomeSalt$")'
+    password: $1$SomeSalt$gYe2UKCdKRZzMsGT3AEaE/
 
   tasks:
 
@@ -13,17 +18,17 @@
         - debian2
         - debian3
         - cpan
-        - cpan-$build_id
+        - cpan-{{ build_id }}
         - shrdata
 
   - name: mount the debian ISO images from srv003
-    mount: name=/mnt/{{ item }} src=$build_server:{{ item }} fstype=nfs state=mounted
+    mount: name=/mnt/{{ item }} src={{ build_server }}:{{ item }} fstype=nfs state=mounted
     with_items:
         - debian1
         - debian2
         - debian3
         - cpan
-        - cpan-$build_id
+        - cpan-{{ build_id }}
 
   - name: aptitude confiugration
     copy: src=src/sources.list dest=/etc/apt/sources.list mode=0644
@@ -53,7 +58,7 @@
     group: name=apps state=present
 
   - name: add users
-    user: name={{ item }} state=present password=$password shell='/bin/bash'
+    user: name={{ item }} state=present password={{ password }} shell='/bin/bash'
     with_items:
         - qsapp
         - qsdevop
