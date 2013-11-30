@@ -1,0 +1,11 @@
+# variables used for build process
+
+  vars:
+    build_id: 13.10.0
+    build_server: srv003
+    ntpserver: ntp.metas.ch
+    # create password with:
+    # python -c 'import crypt; print crypt.crypt("password", "$1$SomeSalt$")'
+    password: $1$SomeSalt$xxxxxxxxxxxxxxxxxxxxxxxx/
+
+
