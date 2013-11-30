@@ -1,0 +1,10 @@
+
+severity = 3
+
+# gratefully stolen from http://probably.co.uk/perl-critic-and-modern-perl.html
+[TestingAndDebugging::RequireUseStrict]
+equivalent_modules = Modern::Perl
+ 
+[TestingAndDebugging::RequireUseWarnings]
+equivalent_modules = Modern::Perl
+
