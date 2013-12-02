@@ -81,6 +81,7 @@
         - bzip2
         - git
         - build-essential
+        - tree
 
 
 - hosts: app
